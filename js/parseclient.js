@@ -17,7 +17,7 @@ module.exports = {
             }
         });
     },
-
+    
     addCrime: function(crime, callback) {
         var crimeObj = new Parse.Object("Crime");
         crimeObj.set("location", new Parse.GeoPoint(crime.latitude, crime.longitude));

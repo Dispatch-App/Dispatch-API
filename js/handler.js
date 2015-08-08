@@ -20,7 +20,8 @@ module.exports = {
         var crime = {latitude: lat, longitude: lng, type: crimeType};
 
         if(!isLocationValid(lat, lng)) {
-            res.send({code: 400, message: "Invalid latitude or longitude"});
+            res.status(400);
+            res.send({success: false, code: 400, message: "Invalid latitude or longitude"});
             return;
         }
 
@@ -36,7 +37,8 @@ module.exports = {
 
         // Validate
         if(!isLocationValid(lat, lng) && isNumber(range)) {
-            res.send({code: 400, message: "Invalid latitude, longitude, or range"});
+            res.status(400);
+            res.send({success: false, code: 400, message: "Invalid latitude, longitude, or range"});
             return;
         }
 
