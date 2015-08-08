@@ -4,31 +4,31 @@ var credentials = require('./credentials');
 Parse.initialize(credentials.applicationId, credentials.clientKey);
 
 module.exports = {
-    getCrimes: function(lat, lng, range, callback) {
+    getCrimes: function(lat, lng, range, callbacks) {
         var query = new Parse.Query("Crime");
         query.withinMiles("location", new Parse.GeoPoint(lat, lng), range);
         query.find({
             success: function(crimes) {
-                callback(crimes);
+                callbacks.success(crimes);
             },
 
             error: function(e) {
-                callback(e);
+                callbacks.error(e);
             }
         });
     },
-    
-    addCrime: function(crime, callback) {
+
+    addCrime: function(crime, callbacks) {
         var crimeObj = new Parse.Object("Crime");
         crimeObj.set("location", new Parse.GeoPoint(crime.latitude, crime.longitude));
         crimeObj.set("type", crime.type);
         crimeObj.save(null, {
             success: function(object) {
-                callback({code: 200, message: "success"});
+                callbacks.success(object);
             },
 
             error: function(object, err) {
-                callback({code: 500, error: err});
+                callbacks.error(object, err);
             }
         });
     }

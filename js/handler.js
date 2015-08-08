@@ -25,8 +25,16 @@ module.exports = {
             return;
         }
 
-        parse.addCrime(crime, function(e) {
-            res.send(e);
+        parse.addCrime(crime, {
+            success: function(o) {
+                res.status(200);
+                res.send({success: true, message: "success"});
+            },
+
+            error: function(o, e) {
+                res.status(500);
+                res.send({success: false, message: e});
+            }
         });
     },
 
@@ -36,15 +44,22 @@ module.exports = {
         var range = parseFloat(req.query.range);
 
         // Validate
-        if(!isLocationValid(lat, lng) && isNumber(range)) {
+        if(!isLocationValid(lat, lng) || !isNumber(range) || range <= 0) {
             res.status(400);
             res.send({success: false, code: 400, message: "Invalid latitude, longitude, or range"});
             return;
         }
 
-        parse.getCrimes(lat, lng, range, function(crimes) {
-            res.send(crimes);
-            return;
+        parse.getCrimes(lat, lng, range, {
+            success: function(crimeArray) {
+                res.status(200);
+                res.send({success: true, code: 200, crimes: crimeArray});
+            },
+
+            error: function(e) {
+                res.status(400);
+                res.send({success: false, message: e});
+            }
         });
     }
 };
