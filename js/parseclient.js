@@ -22,6 +22,7 @@ module.exports = {
         var crimeObj = new Parse.Object("Crime");
         crimeObj.set("location", new Parse.GeoPoint(crime.latitude, crime.longitude));
         crimeObj.set("type", crime.type);
+        crimeObj.set("timestamp", Math.floor(new Date() / 1000));
         crimeObj.save(null, {
             success: function(object) {
                 callbacks.success(object);
