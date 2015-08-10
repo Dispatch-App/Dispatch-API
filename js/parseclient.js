@@ -4,6 +4,26 @@ var credentials = require('./credentials');
 Parse.initialize(credentials.applicationId, credentials.clientKey);
 
 module.exports = {
+    pushNotification: function(nMsg, nChannels) {
+        Parse.Push.send({
+            channels: nChannels,
+            
+            data: {
+                alert: "A test notification from Parse!"
+            }
+        },
+
+        {
+            success: function() {
+                console.log("push notification success");
+            },
+
+            error: function(e) {
+                console.log(e);
+            }
+        });
+    },
+
     getCrimes: function(lat, lng, range, callbacks) {
         var query = new Parse.Query("Crime");
         query.withinMiles("location", new Parse.GeoPoint(lat, lng), range);

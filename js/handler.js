@@ -27,6 +27,9 @@ module.exports = {
 
         parse.addCrime(crime, {
             success: function(o) {
+                // Send a push notification out
+                parse.pushNotification("A " + crime.type + " has occurred near you", "crime");
+
                 res.status(200);
                 res.send({success: true, message: "success"});
             },
